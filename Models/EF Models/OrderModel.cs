@@ -18,11 +18,11 @@ namespace labs.Models.EF_Models
         [Required(ErrorMessage = "Register time stamp required")]
         public DateTime RegisterDateTime { get; set; }
         
-        public DateTime CompleteDateTime { get; set; }
+        public DateTime? CompleteDateTime { get; set; }
 
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
 
-        public double Payed { get; set; }
+        public double? Payed { get; set; }
 
         public LaboratoryWorkModel LaboratoryWorkModel;
         public ClientModel ClientModel;

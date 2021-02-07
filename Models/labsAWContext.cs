@@ -34,9 +34,9 @@ namespace labs.Models
                 .HasForeignKey(i => i.SubjectId);
             });
         }
-        public DbSet<ClientModel> ClientModels { get; set; }
+        public DbSet<ClientModel> Clients { get; set; }
         public DbSet<LaboratoryWorkModel> LaboratoryWorks { get; set; }
-        public DbSet<OrderModel> OrderModels { get; set; }
+        public DbSet<OrderModel> Orders { get; set; }
         public DbSet<SubjectModel> Subjects { get; set; }
     }
 }

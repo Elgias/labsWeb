@@ -21,7 +21,7 @@ namespace labs.Models.ViewModels
         [EmailAddress(ErrorMessage = "Incorect email")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Client sequential number required")]
-        [Range(1, 40, ErrorMessage = "Client sequential number must be in 0 to 40 range")]
+        [Range(1, 40, ErrorMessage = "Client sequential number must be in 1 to 40 range")]
         public int SequentialNumber { get; set; }
     }
 }
