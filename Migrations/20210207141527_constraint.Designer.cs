@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using labs.Models;
 
 namespace labs.Migrations
 {
     [DbContext(typeof(labsAWContext))]
-    partial class labsAWContextModelSnapshot : ModelSnapshot
+    [Migration("20210207141527_constraint")]
+    partial class constraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,16 +83,16 @@ namespace labs.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CompleteDateTime")
+                    b.Property<DateTime>("CompleteDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<double?>("Discount")
+                    b.Property<double>("Discount")
                         .HasColumnType("float");
 
                     b.Property<int>("LaboratoryWorkId")
                         .HasColumnType("int");
 
-                    b.Property<double?>("Payed")
+                    b.Property<double>("Payed")
                         .HasColumnType("float");
 
                     b.Property<DateTime>("RegisterDateTime")
@@ -102,7 +104,7 @@ namespace labs.Migrations
 
                     b.HasIndex("LaboratoryWorkId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("OrderModels");
                 });
 
             modelBuilder.Entity("labs.Models.EF_Models.SubjectModel", b =>
