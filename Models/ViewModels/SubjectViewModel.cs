@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace labs.Models.ViewModels
 {
-    public class SubjectCreateViewModel
+    public class SubjectViewModel
     {
+        [Key]
+        [Required(ErrorMessage = "Subject id required")]
+        public int Id { get; set; }
         [Required(ErrorMessage = "Subject title required")]
         [MaxLength(255, ErrorMessage = "Subject title more then 255")]
         public string Title { get; set; }
