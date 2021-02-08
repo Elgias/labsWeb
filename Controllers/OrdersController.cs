@@ -22,7 +22,7 @@ namespace labs.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var labsAWContext = _context.Orders.Include(o => o.ClientModel).Include(o => o.LaboratoryWorkModel);
+            var labsAWContext = _context.OrdersDetailedView;
             return View(await labsAWContext.ToListAsync());
         }
 
@@ -49,8 +49,8 @@ namespace labs.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Email");
-            ViewData["LaboratoryWorkId"] = new SelectList(_context.LaboratoryWorks, "Id", "Id");
+            ViewData["ClientId"] = new SelectList(_context.ShortClientsView, "ClientId", "ClientFullName");
+            ViewData["LaboratoryWorkId"] = new SelectList(_context.LaboratoryWorkDetailedView, "LabWorkId", "ShortName");
             return View();
         }
 
@@ -67,8 +67,8 @@ namespace labs.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Email", orderModel.ClientId);
-            ViewData["LaboratoryWorkId"] = new SelectList(_context.LaboratoryWorks, "Id", "Id", orderModel.LaboratoryWorkId);
+            ViewData["ClientId"] = new SelectList(_context.ShortClientsView, "ClientId", "ClientFullName", orderModel.ClientId);
+            ViewData["LaboratoryWorkId"] = new SelectList(_context.LaboratoryWorkDetailedView, "LabWorkId", "ShortName", orderModel.LaboratoryWorkId);
             return View(orderModel);
         }
 
@@ -85,8 +85,8 @@ namespace labs.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Email", orderModel.ClientId);
-            ViewData["LaboratoryWorkId"] = new SelectList(_context.LaboratoryWorks, "Id", "Id", orderModel.LaboratoryWorkId);
+            ViewData["ClientId"] = new SelectList(_context.ShortClientsView, "ClientId", "ClientFullName", orderModel.ClientId);
+            ViewData["LaboratoryWorkId"] = new SelectList(_context.LaboratoryWorkDetailedView, "LabWorkId", "ShortName", orderModel.LaboratoryWorkId);
             return View(orderModel);
         }
 
@@ -122,8 +122,8 @@ namespace labs.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Email", orderModel.ClientId);
-            ViewData["LaboratoryWorkId"] = new SelectList(_context.LaboratoryWorks, "Id", "Id", orderModel.LaboratoryWorkId);
+            ViewData["ClientId"] = new SelectList(_context.ShortClientsView, "ClientId", "ClientFullName", orderModel.ClientId);
+            ViewData["LaboratoryWorkId"] = new SelectList(_context.LaboratoryWorkDetailedView, "LabWorkId", "ShortName", orderModel.LaboratoryWorkId);
             return View(orderModel);
         }
 

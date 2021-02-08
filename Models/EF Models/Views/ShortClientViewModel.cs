@@ -10,6 +10,7 @@ namespace labs.Models.EF_Models.Views
         public int ClientId { get; set; }
         public string ClientFullName { get; set; }
         public string ClientEmail { get; set; }
-        public string ClientSequentialNum { get; set; }
+        public string ClientShortInfo { get; set; }
+        public int ClientSequentialNum { get; set; }
     }
 }

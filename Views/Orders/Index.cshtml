@@ -1,4 +1,4 @@
-﻿@model IEnumerable<labs.Models.EF_Models.OrderModel>
+﻿@model IEnumerable<labs.Models.EF_Models.Views.OrdersDetailedViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,16 +16,28 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                FullName
+                @Html.DisplayNameFor(model => model.ClientId)
             </th>
             <th>
-                Laboratory Work
+                @Html.DisplayNameFor(model => model.ClientFullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LabWorkId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LabWorkSubjTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LabWorkNum)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RegisterDateTime)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CompleteDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Discount)
@@ -43,10 +55,28 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.ClientId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientFullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LabWorkId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LabWorkSubjTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LabWorkNum)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.RegisterDateTime)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CompleteDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Discount)

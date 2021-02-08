@@ -15,10 +15,11 @@ namespace labs.Models
         {
             Database.Migrate();
             Database.ExecuteSqlRaw(@"
-                create OR ALTER view ClientShortView as
+                create or alter view ClientShortView as
                 select 
                 c.Id as [ClientId],
                 CONCAT(c.LastName, ' ', c.FirstName) as [ClientFullName],
+                CONCAT(c.LastName, ' ', c.FirstName, ', ', c.Id) as [ClientShortInfo],
                 c.Email as [ClientEmail],
                 c.SequentialNumber as [ClientSequentialNum]
                 from Clients as c;"
@@ -39,15 +40,34 @@ namespace labs.Models
             );
 
             Database.ExecuteSqlRaw(@"
-                create OR ALTER view LaboratoryWorksView as
+                create or alter view LaboratoryWorksView as
                 select 
                 lw.Id as [LabWorkId],
                 s.Id as [SubjectId],
                 s.Title as [SubjectTitle],
                 lw.Number as [LabWorkNum],
+                lw.Price as [LabPrice],
                 Concat(s.Title,' ',lw.Number) as [ShortName]
                 from Subjects as s, LaboratoryWorks as lw
                 where s.Id = lw.Id"
+            );
+
+            Database.ExecuteSqlRaw(@"
+                create or alter view OrdersDetailedView as
+                select 
+                o.Id as [Id],
+                cs.ClientId as [ClientId],
+                cs.ClientFullName as [ClientFullName],
+                lwv.LabWorkId as [LabWorkId],
+                lwv.SubjectTitle as [LabWorkSubjTitle],
+                lwv.LabWorkNum as [LabWorkNum],
+                o.RegisterDateTime,
+                o.CompleteDateTime,
+                lwv.LabPrice as [Price],
+                o.Discount,
+                o.Payed
+                from Orders as o, ClientShortView as cs, LaboratoryWorksView as lwv
+                where o.ClientId = cs.ClientId and o.LaboratoryWorkId = lwv.LabWorkId"
             );
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -87,6 +107,13 @@ namespace labs.Models
                 b.HasNoKey();
                 b.ToView("ClientBillView");
             });
+
+            modelBuilder.Entity<OrdersDetailedViewModel>(b =>
+            {
+                b.HasNoKey();
+                b.ToView("OrdersDetailedView");
+            });
+            
         }
         public DbSet<ClientModel> Clients { get; set; }
         public DbSet<LaboratoryWorkModel> LaboratoryWorks { get; set; }
@@ -95,5 +122,6 @@ namespace labs.Models
         public DbSet<ShortClientViewModel> ShortClientsView { get; set; }
         public DbSet<LaboratoryWorkDetailedViewModel> LaboratoryWorkDetailedView { get; set; }
         public DbSet<ClientBillViewModel> ClientsBillsView { get; set; }
+        public DbSet<OrdersDetailedViewModel> OrdersDetailedView { get; set; }
     }
 }
