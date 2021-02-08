@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace labs.Models.ViewModels
 {
-    public class LaboratoryWorkViewModel
+    public class LaboratoryWorkDTO
     {
         [Key]
         [Required(ErrorMessage = "Laboratory work id required")]

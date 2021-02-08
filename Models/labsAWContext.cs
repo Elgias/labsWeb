@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using labs.Models.EF_Models;
+using labs.Models.EF_Models.Views;
 
 namespace labs.Models
 {
@@ -13,6 +14,41 @@ namespace labs.Models
             : base(dbContextOptions)
         {
             Database.Migrate();
+            Database.ExecuteSqlRaw(@"
+                create OR ALTER view ClientShortView as
+                select 
+                c.Id as [ClientId],
+                CONCAT(c.LastName, ' ', c.FirstName) as [ClientFullName],
+                c.Email as [ClientEmail],
+                c.SequentialNumber as [ClientSequentialNum]
+                from Clients as c;"
+            );
+
+            Database.ExecuteSqlRaw(@"
+                create OR ALTER view ClientBillView as
+                select
+                c.ClientFullName,
+                SUM(lw.Price) as [Total],
+                sum(case when o.CompleteDateTime is null then 0 else lw.Price end) as [CompletedWorksTotal],
+                iif(sum(o.Payed) is null, 0, sum(o.Payed)) as [Payed]
+                from 
+	                ClientShortView as c, Orders as o, 
+	                LaboratoryWorks as lw
+                where c.ClientId = o.ClientId and o.LaboratoryWorkId = lw.Id
+                group by c.ClientFullName"
+            );
+
+            Database.ExecuteSqlRaw(@"
+                create OR ALTER view LaboratoryWorksView as
+                select 
+                lw.Id as [LabWorkId],
+                s.Id as [SubjectId],
+                s.Title as [SubjectTitle],
+                lw.Number as [LabWorkNum],
+                Concat(s.Title,' ',lw.Number) as [ShortName]
+                from Subjects as s, LaboratoryWorks as lw
+                where s.Id = lw.Id"
+            );
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,10 +69,31 @@ namespace labs.Models
                 .WithMany(i => i.LaboratoryWorkModel)
                 .HasForeignKey(i => i.SubjectId);
             });
+
+            modelBuilder.Entity<ShortClientViewModel>(b =>
+            {
+                b.HasNoKey();
+                b.ToView("ClientShortView");
+            });
+
+            modelBuilder.Entity<LaboratoryWorkDetailedViewModel>(b =>
+            {
+                b.HasNoKey();
+                b.ToView("LaboratoryWorksView");
+            });
+
+            modelBuilder.Entity<ClientBillViewModel>(b =>
+            {
+                b.HasNoKey();
+                b.ToView("ClientBillView");
+            });
         }
         public DbSet<ClientModel> Clients { get; set; }
         public DbSet<LaboratoryWorkModel> LaboratoryWorks { get; set; }
         public DbSet<OrderModel> Orders { get; set; }
         public DbSet<SubjectModel> Subjects { get; set; }
+        public DbSet<ShortClientViewModel> ShortClientsView { get; set; }
+        public DbSet<LaboratoryWorkDetailedViewModel> LaboratoryWorkDetailedView { get; set; }
+        public DbSet<ClientBillViewModel> ClientsBillsView { get; set; }
     }
 }

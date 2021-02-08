@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace labs.Models.ViewModels
 {
-    public class OrderViewModel
+    public class OrderDTO
     {
         [Key]
         [Required(ErrorMessage = "Order id required")]

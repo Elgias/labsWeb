@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace labs.Models.ViewModels
 {
-    public class ClientCreateViewModel
+    public class ClientCreateDTO
     {
         [Key]
         [Required(ErrorMessage = "Client id required")]

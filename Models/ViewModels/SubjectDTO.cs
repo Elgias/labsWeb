@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace labs.Models.ViewModels
 {
-    public class SubjectViewModel
+    public class SubjectDTO
     {
         [Key]
         [Required(ErrorMessage = "Subject id required")]
